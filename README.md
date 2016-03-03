@@ -2,6 +2,11 @@ Cotta & Cush Yii2 User Auth
 ===========================
 Custom User Auth Yii2 Extension ported from User Auth Project
 
+Features
+--------
+* User registration
+* User authentication
+* Automatic Password Generation
 
 Contributors
 ------------
