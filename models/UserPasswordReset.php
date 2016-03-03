@@ -175,10 +175,11 @@ class UserPasswordReset extends BaseModel
 
         $tokenLength = $tokenLength - 10; //append a timestamp
         $token = Utils::generateRandomString($tokenLength, false);
+        $token = $token . time();
         if ($this->tokenExists($token)) {
             return $this->generateToken($user_id, $tokenLength, $expires, $expiry);
         }
-        $token = $token . time();
+
         $this->setUserId($user_id);
         $this->setExpires((int) $expires);
         $this->setDateOfExpiry($expires ? time() + $expiry : null);
