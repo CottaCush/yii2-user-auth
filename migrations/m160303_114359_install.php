@@ -25,13 +25,15 @@ class m160303_114359_install extends Migration
 
         $this->createTable(self::TABLE_USER_CREDENTIALS, [
             'id' => $this->primaryKey(11),
-            'email' => $this->string(100)->notNull(),
+            'email' => $this->string(100)->notNull()->unique(),
             'password' => $this->string(100)->notNull(),
             'user_type_id' => $this->integer(11)->defaultValue(null),
             'status' => $this->boolean()->defaultValue(0),
             'created_at' => $this->dateTime()->notNull(),
             'updated_at' => $this->dateTime()->notNull()
         ]);
+
+        $this->createIndex('k_'.self::TABLE_USER_CREDENTIALS.'_email', self::TABLE_USER_CREDENTIALS, 'email', true);
 
         $this->addForeignKey('fk_user_credentials_user_types_user_type_id_id', self::TABLE_USER_CREDENTIALS, 'user_type_id', self::TABLE_USER_TYPES, 'id', 'CASCADE', 'CASCADE');
 
@@ -52,6 +54,8 @@ class m160303_114359_install extends Migration
             'date_of_expiry' => $this->integer(11),
             'expires' => $this->boolean()->defaultValue(1)->notNull()
         ]);
+
+        $this->createIndex('k_'.self::TABLE_USER_PASSWORD_RESET.'_token', self::TABLE_USER_PASSWORD_RESET, 'token', true);
 
         $this->addForeignKey('fk_user_password_resets_user_credentials_user_id_id', self::TABLE_USER_PASSWORD_RESET, 'user_id', self::TABLE_USER_CREDENTIALS, 'id', 'CASCADE', 'CASCADE');
 
