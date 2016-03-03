@@ -1,10 +1,15 @@
 Cotta & Cush Yii2 User Auth
 ===========================
-Custom User Auth Yii2 Extension
+Custom User Auth Yii2 Extension ported from User Auth Project
 
 
 Contributors
 ------------
+Adeyemi Olaoye <yemi@cottacush.com>
+
+Credits
+-------
+Tega Oghenekohwo <tega@cottacush.com>
 Adeyemi Olaoye <yemi@cottacush.com>
 
 Requirements
