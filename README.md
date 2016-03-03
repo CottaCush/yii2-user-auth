@@ -14,7 +14,7 @@ Adeyemi Olaoye <yemi@cottacush.com>
 
 Credits
 -------
-Tega Oghenekohwo <tega@cottacush.com>
+Tega Oghenekohwo <tega@cottacush.com>  
 Adeyemi Olaoye <yemi@cottacush.com>
 
 Requirements
