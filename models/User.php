@@ -58,7 +58,7 @@ class User extends BaseModel
 
     public function rules()
     {
-        [
+       return [
             ['email', 'email', 'message' => 'Invalid email supplied'],
             ['email', 'unique', 'message' => 'Sorry, The email has been used by another user']
         ];
