@@ -23,7 +23,7 @@ class UserPasswordChange extends BaseModel
      * Table for managing model
      * @return string
      */
-    public function getSource()
+    public static function tableName()
     {
         return "user_password_changes";
     }

@@ -125,7 +125,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @return string
      */
-    public function getSource()
+    public static function tableName()
     {
         return "user_login_history";
     }
