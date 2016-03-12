@@ -66,11 +66,14 @@ class User extends BaseModel
 
 
     /**
-     * Encrypt user password before creating user
+     * @inheritdoc
      */
-    public function beforeCreate()
+    public function beforeSave($insert)
     {
-        $this->password = Utils::encryptPassword($this->password);
+        if($insert) {
+            $this->password = Utils::encryptPassword($this->password);
+        }
+        return parent::beforeSave($insert);
     }
 
     /**
@@ -79,6 +82,7 @@ class User extends BaseModel
     public function beforeValidate()
     {
         $this->updated_at = date("Y-m-d H:i:s");
+        return true;
     }
 
     /**
