@@ -133,9 +133,10 @@ class UserLoginHistory extends BaseModel
     /**
      * Set field before validation check
      */
-    public function beforeValidationOnCreate()
+    public function beforeValidate()
     {
         $this->date_logged = Utils::getCurrentDateTime();
+        return true;
     }
 
     /**
@@ -155,7 +156,9 @@ class UserLoginHistory extends BaseModel
             $data['user_agent'] = $request->getUserAgent();
         }
 
-        return $this->save($data);
+        $this->setAttributes($data, false);
+
+        return $this->save();
     }
 
     /**
