@@ -12,8 +12,8 @@ use cottacush\userauth\libs\Utils;
  * @property string login_status
  * @property string ip_address
  * @property string user_agent
- * @package UserAuth\Models
- * @author Tega Oghenekohwo <tega@cottacush.com>
+ * @package cottacush\userauth\models
+ * @author Adeyemi Olaoye <yemi@cottacush.com>
  */
 class UserLoginHistory extends BaseModel
 {
