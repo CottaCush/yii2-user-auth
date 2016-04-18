@@ -129,7 +129,7 @@ class UserType extends BaseModel
         $userType = new self();
         $userType->name = $name;
         if (!$userType->save()) {
-            throw new UserTypeException($this->getErrors());
+            throw new UserTypeException(Utils::getErrorsAsString($this->getErrors()));
         }
         return $userType->id;
     }

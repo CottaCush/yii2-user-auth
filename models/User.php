@@ -101,7 +101,7 @@ class User extends BaseModel
         $this->status = $setActive ? self::STATUS_ACTIVE : self::STATUS_INACTIVE;
         $this->user_type_id = $userTypeId;
         if (!$this->save()) {
-            throw new UserCreationException($this->getErrors());
+            throw new UserCreationException(Utils::getErrorsAsString($this->getErrors()));
         }
         return $this->id;
     }

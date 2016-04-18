@@ -1,7 +1,9 @@
 <?php
 
 namespace cottacush\userauth\libs;
+
 use Yii;
+use yii\helpers\BaseInflector;
 
 
 /**
@@ -118,5 +120,24 @@ class Utils
         }
 
         return $messages;
+    }
+
+    /**
+     * Get errors as string
+     * @author Adeyemi Olaoye <yemi@cottacush.com>
+     * @param $errors
+     * @return string
+     */
+    public static function getErrorsAsString($errors)
+    {
+        if (is_array($errors)) {
+            $errorsStringArr = [];
+            /** @var  $error */
+            foreach ($errors as $field => $errorsArr) {
+                $errorsStringArr = array_merge($errorsStringArr, $errorsArr);
+            }
+            return BaseInflector::sentence($errorsStringArr);
+        }
+        return $errors;
     }
 }
