@@ -1,20 +1,26 @@
 {
-    "name": "cottacush/yii2-user-auth",
-    "description": "Custom User Auth Implementation",
-    "type": "yii2-extension",
-    "keywords": ["yii2","extension"],
-    "authors": [
-        {
-            "name": "Adeyemi Olaoye",
-            "email": "yemi@cottacush.com"
-        }
-    ],
-    "require": {
-        "yiisoft/yii2": "*"
-    },
-    "autoload": {
-        "psr-4": {
-            "cottacush\\userauth\\": ""
-        }
+  "name": "cottacush/yii2-user-auth",
+  "description": "Custom User Auth Implementation",
+  "type": "yii2-extension",
+  "keywords": [
+    "yii2",
+    "cottacush",
+    "user-auth"
+  ],
+  "homepage": "https://github.com/cottacush/yii2-user-auth",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Adeyemi Olaoye",
+      "email": "yemi@cottacush.com"
     }
+  ],
+  "require": {
+    "yiisoft/yii2": "~2.0.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "cottacush\\userauth\\": ""
+    }
+  }
 }
