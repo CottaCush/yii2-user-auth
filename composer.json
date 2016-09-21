@@ -1,5 +1,5 @@
 {
-    "name": "yii2-user-auth",
+    "name": "cottacush/yii2-user-auth",
     "description": "Custom User Auth Implementation",
     "type": "yii2-extension",
     "keywords": ["yii2","extension"],
