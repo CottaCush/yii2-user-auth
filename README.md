@@ -33,7 +33,7 @@ to the require section of your `composer.json` file.
 Usage
 -----
 ```bash
- APPLICATION_ENV=development ./yii migrate/create install --migrationPath=@vendor/yii2-user-auth/migrations
+ APPLICATION_ENV=development ./yii migrate install --migrationPath=@vendor/cottacush/yii2-user-auth/migrations
 ```
 
 ## Security
