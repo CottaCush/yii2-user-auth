@@ -2,12 +2,12 @@
 
 namespace cottacush\userauth\models;
 
-use cottacush\userauth\libs\Utils;
-use cottacush\userauth\exceptions\StatusChangeException;
-use cottacush\userauth\exceptions\UserAuthenticationException;
 use cottacush\userauth\exceptions\PasswordChangeException;
 use cottacush\userauth\exceptions\ResetPasswordException;
+use cottacush\userauth\exceptions\StatusChangeException;
+use cottacush\userauth\exceptions\UserAuthenticationException;
 use cottacush\userauth\exceptions\UserCreationException;
+use cottacush\userauth\libs\Utils;
 
 
 /**
@@ -27,18 +27,18 @@ class User extends BaseModel
     /**
      * Constant to show that a user's account is not yet active (status after registration)
      */
-    const STATUS_INACTIVE = 0;
+    const STATUS_INACTIVE = 'inactive';
 
     /**
      * Constant to show that a user's account is active
      */
-    const STATUS_ACTIVE = 1;
+    const STATUS_ACTIVE = 'active';
 
     /**
      * Constant to show that a user's account has been suspended/disabled
      * This is a status that is triggered by an administrator
      */
-    const STATUS_DISABLED = 2;
+    const STATUS_DISABLED = 'disabled';
 
     static $statusMap = [
         self::STATUS_INACTIVE => 'Inactive',
@@ -58,7 +58,7 @@ class User extends BaseModel
 
     public function rules()
     {
-       return [
+        return [
             ['email', 'email', 'message' => 'Invalid email supplied'],
             ['email', 'unique', 'message' => 'Sorry, The email has been used by another user']
         ];
@@ -70,7 +70,7 @@ class User extends BaseModel
      */
     public function beforeSave($insert)
     {
-        if($insert) {
+        if ($insert) {
             $this->password = Utils::encryptPassword($this->password);
         }
         return parent::beforeSave($insert);
@@ -304,7 +304,7 @@ class User extends BaseModel
 
     public function getUserByEmail($email)
     {
-       return User::find()->where(['email' => $email])->one();
+        return User::find()->where(['email' => $email])->one();
     }
 
     /**

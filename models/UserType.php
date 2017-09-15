@@ -108,7 +108,7 @@ class UserType extends BaseModel
 
     /**
      * Validate user type entered
-     * @return bool
+     * @return array
      */
     public function rules()
     {
