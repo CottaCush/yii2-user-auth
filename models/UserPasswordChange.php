@@ -23,7 +23,7 @@ class UserPasswordChange extends BaseModel
      * Table for managing model
      * @return string
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return "user_password_changes";
     }
@@ -32,7 +32,7 @@ class UserPasswordChange extends BaseModel
      * Get ID
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -41,7 +41,7 @@ class UserPasswordChange extends BaseModel
      * Get user's user ID
      * @return int
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -59,7 +59,7 @@ class UserPasswordChange extends BaseModel
      * Get the date password change was made
      * @return string
      */
-    public function getDateChanged()
+    public function getDateChanged(): string
     {
         return $this->date_changed;
     }
@@ -77,7 +77,7 @@ class UserPasswordChange extends BaseModel
      * Get password hash
      * @return string
      */
-    public function getPasswordHash()
+    public function getPasswordHash(): string
     {
         return $this->password_hash;
     }
@@ -101,7 +101,11 @@ class UserPasswordChange extends BaseModel
      * @param int $max
      * @throws PasswordChangeException
      */
-    public static function validateNewPassword($userId, $newPassword, $max = self::MAX_PASSWORD_CHANGES_BEFORE_REUSE)
+    public static function validateNewPassword(
+        int $userId,
+        string $newPassword,
+        $max = self::MAX_PASSWORD_CHANGES_BEFORE_REUSE
+    )
     {
         $recentPasswords = UserPasswordChange::find()
             ->where(['user_id' => $userId])
@@ -116,5 +120,4 @@ class UserPasswordChange extends BaseModel
             }
         }
     }
-
 }

@@ -19,7 +19,7 @@ class UserType extends BaseModel
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -27,7 +27,7 @@ class UserType extends BaseModel
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -35,7 +35,7 @@ class UserType extends BaseModel
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -43,7 +43,7 @@ class UserType extends BaseModel
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -51,7 +51,7 @@ class UserType extends BaseModel
     /**
      * @return string
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): string
     {
         return $this->created_at;
     }
@@ -59,7 +59,7 @@ class UserType extends BaseModel
     /**
      * @param string $created_at
      */
-    public function setCreatedAt($created_at)
+    public function setCreatedAt(string $created_at)
     {
         $this->created_at = $created_at;
     }
@@ -67,7 +67,7 @@ class UserType extends BaseModel
     /**
      * @return string
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): string
     {
         return $this->updated_at;
     }
@@ -75,7 +75,7 @@ class UserType extends BaseModel
     /**
      * @param string $updated_at
      */
-    public function setUpdatedAt($updated_at)
+    public function setUpdatedAt(string $updated_at)
     {
         $this->updated_at = $updated_at;
     }
@@ -83,7 +83,7 @@ class UserType extends BaseModel
     /**
      * @return string
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return "user_types";
     }
@@ -93,7 +93,7 @@ class UserType extends BaseModel
      * @author Adeyemi Olaoye <yemi@cottacush.com>
      * @return bool
      */
-    public function beforeValidate()
+    public function beforeValidate(): bool
     {
         if ($this->hasAttribute('updated_at')) {
             $this->updated_at = Utils::getCurrentDateTime();
@@ -108,9 +108,9 @@ class UserType extends BaseModel
 
     /**
      * Validate user type entered
-     * @return bool
+     * @return array|bool
      */
-    public function rules()
+    public function rules(): array|bool
     {
         return [
             ['name', 'required', 'message' => 'User type name must be supplied'],
@@ -124,7 +124,7 @@ class UserType extends BaseModel
      * @return int
      * @throws UserTypeException
      */
-    public function createUserType($name)
+    public function createUserType(string $name): int
     {
         $userType = new self();
         $userType->name = $name;

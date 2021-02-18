@@ -14,7 +14,7 @@ class m160303_114359_install extends Migration
     const TABLE_USER_PASSWORD_RESET = 'user_password_resets';
     const TABLE_USER_LOGIN_HISTORY = 'user_login_history';
 
-    public function up()
+    public function up(): ?bool
     {
         $this->createTable(self::TABLE_USER_TYPES, [
             'id' => $this->primaryKey(11),
@@ -71,7 +71,7 @@ class m160303_114359_install extends Migration
         $this->addForeignKey('fk_user_login_history_user_credentials_user_id_id', self::TABLE_USER_LOGIN_HISTORY, 'user_id', self::TABLE_USER_CREDENTIALS, 'id', 'CASCADE', 'CASCADE');
     }
 
-    public function down()
+    public function down(): ?bool
     {
         $this->dropTable(self::TABLE_USER_LOGIN_HISTORY);
         $this->dropTable(self::TABLE_USER_PASSWORD_RESET);
