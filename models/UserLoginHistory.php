@@ -2,6 +2,8 @@
 
 namespace cottacush\userauth\models;
 use cottacush\userauth\libs\Utils;
+use stdClass;
+use yii\db\ActiveRecord;
 
 
 /**
@@ -27,7 +29,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -35,7 +37,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -43,7 +45,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @return int
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -52,7 +54,7 @@ class UserLoginHistory extends BaseModel
      * @param int $user_id
      * @return $this
      */
-    public function setUserId($user_id)
+    public function setUserId(int $user_id): self
     {
         $this->user_id = $user_id;
         return $this;
@@ -61,7 +63,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @return string
      */
-    public function getDateLogged()
+    public function getDateLogged(): string
     {
         return $this->date_logged;
     }
@@ -69,7 +71,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @param string $date_logged
      */
-    public function setDateLogged($date_logged)
+    public function setDateLogged(string $date_logged)
     {
         $this->date_logged = $date_logged;
     }
@@ -77,7 +79,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @return string
      */
-    public function getLoginStatus()
+    public function getLoginStatus(): string
     {
         return $this->login_status;
     }
@@ -85,7 +87,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @param string $login_status
      */
-    public function setLoginStatus($login_status)
+    public function setLoginStatus(string $login_status)
     {
         $this->login_status = $login_status;
     }
@@ -93,7 +95,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @return string
      */
-    public function getIpAddress()
+    public function getIpAddress(): string
     {
         return $this->ip_address;
     }
@@ -101,7 +103,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @param string $ip_address
      */
-    public function setIpAddress($ip_address)
+    public function setIpAddress(string $ip_address)
     {
         $this->ip_address = $ip_address;
     }
@@ -109,7 +111,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @return string
      */
-    public function getUserAgent()
+    public function getUserAgent(): string
     {
         return $this->user_agent;
     }
@@ -117,7 +119,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @param string $user_agent
      */
-    public function setUserAgent($user_agent)
+    public function setUserAgent(string $user_agent)
     {
         $this->user_agent = $user_agent;
     }
@@ -125,7 +127,7 @@ class UserLoginHistory extends BaseModel
     /**
      * @return string
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return "user_login_history";
     }
@@ -133,7 +135,7 @@ class UserLoginHistory extends BaseModel
     /**
      * Set field before validation check
      */
-    public function beforeValidate()
+    public function beforeValidate(): bool
     {
         $this->date_logged = Utils::getCurrentDateTime();
         return true;
@@ -144,7 +146,7 @@ class UserLoginHistory extends BaseModel
      * @param $data
      * @return bool
      */
-    public function addLog($data)
+    public function addLog($data): bool
     {
         $request = \Yii::$app->getRequest();
 
@@ -166,7 +168,7 @@ class UserLoginHistory extends BaseModel
      * @author Tega Oghenekohwo <tega@cottacush.com>
      * @return $this
      */
-    public static function getInstance()
+    public static function getInstance(): static
     {
         return new self();
     }
@@ -174,9 +176,9 @@ class UserLoginHistory extends BaseModel
     /**
      * @param $page
      * @param $limit
-     * @return \stdClass
+     * @return array|stdClass
      */
-    public function fetchLoginHistory($page, $limit)
+    public function fetchLoginHistory($page, $limit): array|stdClass
     {
         return self::find()->where(['user_id' => $this->user_id])->offset($page)->limit($limit)->all();
     }

@@ -8,6 +8,9 @@ use cottacush\userauth\exceptions\UserAuthenticationException;
 use cottacush\userauth\exceptions\PasswordChangeException;
 use cottacush\userauth\exceptions\ResetPasswordException;
 use cottacush\userauth\exceptions\UserCreationException;
+use stdClass;
+use yii\base\Exception;
+use yii\db\ActiveRecord;
 
 
 /**
@@ -40,7 +43,7 @@ class User extends BaseModel
      */
     const STATUS_DISABLED = 2;
 
-    static $statusMap = [
+    static array $statusMap = [
         self::STATUS_INACTIVE => 'Inactive',
         self::STATUS_ACTIVE => 'Active',
         self::STATUS_DISABLED => 'Disabled'
@@ -50,13 +53,12 @@ class User extends BaseModel
      * Returns the name of the table that holds the user's information
      * @return string
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return "user_credentials";
     }
 
-
-    public function rules()
+    public function rules(): array
     {
        return [
             ['email', 'email', 'message' => 'Invalid email supplied'],
@@ -64,11 +66,11 @@ class User extends BaseModel
         ];
     }
 
-
     /**
      * @inheritdoc
+     * @throws Exception
      */
-    public function beforeSave($insert)
+    public function beforeSave($insert): bool
     {
         if($insert) {
             $this->password = Utils::encryptPassword($this->password);
@@ -79,7 +81,7 @@ class User extends BaseModel
     /**
      * Set updated at date and time before updating a user
      */
-    public function beforeValidate()
+    public function beforeValidate(): bool
     {
         $this->updated_at = date("Y-m-d H:i:s");
         return true;
@@ -89,11 +91,11 @@ class User extends BaseModel
      * @param string $email
      * @param string $password
      * @param bool|false $setActive
-     * @param int /null $userTypeId
+     * @param null $userTypeId
      * @return int the ID of the created user
      * @throws UserCreationException
      */
-    public function createUser($email, $password, $setActive = false, $userTypeId = null)
+    public function createUser(string $email, string $password, $setActive = false, $userTypeId = null): int
     {
         $this->email = $email;
         $this->password = $password;
@@ -112,8 +114,9 @@ class User extends BaseModel
      * @param int $length
      * @param bool|true $strict (if set to true, a symbol will be added to the password)
      * @return string
+     * @throws Exception
      */
-    public static function generateRandomPassword($length = 8, $strict = true)
+    public static function generateRandomPassword($length = 8, $strict = true): string
     {
         return Utils::generateRandomPassword($length, $strict);
     }
@@ -161,8 +164,14 @@ class User extends BaseModel
      * @return bool
      * @throws UserAuthenticationException
      * @throws PasswordChangeException
+     * @throws Exception
      */
-    public function changePassword($email, $previousPassword, $newPassword, $max = UserPasswordChange::MAX_PASSWORD_CHANGES_BEFORE_REUSE)
+    public function changePassword(
+        string $email,
+        string $previousPassword,
+        string $newPassword,
+        $max = UserPasswordChange::MAX_PASSWORD_CHANGES_BEFORE_REUSE
+    ): bool
     {
         $user = $this->getUserByEmail($email);
         if ($user == false) {
@@ -194,9 +203,10 @@ class User extends BaseModel
      * @param string $newPassword
      * @param null $resetPasswordToken token to expire if call is from password reset
      * @return bool
+     * @throws Exception
      * @throws PasswordChangeException
      */
-    public function updatePassword($userId, $newPassword, $resetPasswordToken = null)
+    public function updatePassword(int $userId, string $newPassword, $resetPasswordToken = null): bool
     {
 
         //use a transaction as we would be updating more than one table
@@ -238,7 +248,7 @@ class User extends BaseModel
      * @return bool
      * @throws StatusChangeException
      */
-    public function setActive($email)
+    public function setActive(string $email): bool
     {
         return $this->changeUserStatus($email, self::STATUS_ACTIVE);
     }
@@ -249,7 +259,7 @@ class User extends BaseModel
      * @return bool
      * @throws StatusChangeException
      */
-    public function setInactive($email)
+    public function setInactive(string $email): bool
     {
         return $this->changeUserStatus($email, self::STATUS_INACTIVE);
     }
@@ -260,7 +270,7 @@ class User extends BaseModel
      * @return bool
      * @throws StatusChangeException
      */
-    public function disableUser($email)
+    public function disableUser(string $email): bool
     {
         return $this->changeUserStatus($email, self::STATUS_DISABLED);
     }
@@ -272,7 +282,7 @@ class User extends BaseModel
      * @return bool
      * @throws StatusChangeException
      */
-    public function changeUserStatus($email, $newStatus)
+    public function changeUserStatus(string $email, int $newStatus): bool
     {
         $user = $this->getUserByEmail($email);
         if (empty($user)) {
@@ -299,10 +309,9 @@ class User extends BaseModel
     /**
      * Get user details
      * @param string $email
-     * @return self
+     * @return array|User|ActiveRecord
      */
-
-    public function getUserByEmail($email)
+    public function getUserByEmail(string $email): User|array|ActiveRecord
     {
        return User::find()->where(['email' => $email])->one();
     }
@@ -312,7 +321,7 @@ class User extends BaseModel
      * @param $statusCode
      * @return string
      */
-    public static function getStatusDescriptionFromCode($statusCode)
+    public static function getStatusDescriptionFromCode($statusCode): string
     {
         if (empty(self::$statusMap[$statusCode])) {
             return "Unknown";
@@ -330,7 +339,7 @@ class User extends BaseModel
      * @throws ResetPasswordException
      * @throws UserAuthenticationException
      */
-    public function generateResetPasswordToken($email, $tokenLength = null, $expires = true, $expiry = null)
+    public function generateResetPasswordToken($email, $tokenLength = null, $expires = true, $expiry = null): string
     {
         $user = $this->getUserByEmail($email);
 
@@ -351,7 +360,7 @@ class User extends BaseModel
      * @param string $status
      * @throws UserAuthenticationException
      */
-    public function validateStatus($status)
+    public function validateStatus(string $status)
     {
         if ($status == self::STATUS_INACTIVE) {
             throw new UserAuthenticationException(ErrorMessages::INACTIVE_ACCOUNT);
@@ -367,7 +376,7 @@ class User extends BaseModel
      * @param $token
      * @return null|int
      */
-    public function getUserIdByResetPasswordToken($token)
+    public function getUserIdByResetPasswordToken($token): ?int
     {
         $tokenData = (new UserPasswordReset())->getTokenData($token);
         return $tokenData == false ? null : $tokenData->user_id;
@@ -378,11 +387,12 @@ class User extends BaseModel
      * @param $newPassword
      * @param $token
      * @return bool
+     * @throws Exception
      * @throws PasswordChangeException
      * @throws ResetPasswordException
      * @throws UserAuthenticationException
      */
-    public function resetPassword($email, $newPassword, $token)
+    public function resetPassword($email, $newPassword, $token): bool
     {
         $user = $this->getUserByEmail($email);
         if ($user == false) {
@@ -414,10 +424,10 @@ class User extends BaseModel
      * @param $email
      * @param $page
      * @param $limit
-     * @return \stdClass
+     * @return stdClass
      * @throws UserAuthenticationException
      */
-    public function getLoginHistory($email, $page, $limit)
+    public function getLoginHistory($email, $page, $limit): stdClass
     {
         $user = $this->getUserByEmail($email);
         if ($user == false) {
@@ -426,5 +436,4 @@ class User extends BaseModel
 
         return UserLoginHistory::getInstance()->setUserId($user->id)->fetchLoginHistory($page, $limit);
     }
-
 }

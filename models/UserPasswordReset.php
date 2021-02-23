@@ -3,6 +3,8 @@
 namespace cottacush\userauth\models;
 use cottacush\userauth\exceptions\ResetPasswordException;
 use cottacush\userauth\libs\Utils;
+use yii\base\Exception;
+use yii\db\ActiveRecord;
 
 
 /**
@@ -51,7 +53,7 @@ class UserPasswordReset extends BaseModel
      * Get the object's ID
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -60,16 +62,16 @@ class UserPasswordReset extends BaseModel
      * Set the object's User ID
      * @param int $user_id
      */
-    public function setUserId($user_id)
+    public function setUserId(int $user_id)
     {
         $this->user_id = $user_id;
     }
 
     /**
      * Get the object's User ID
-     * @return mixed
+     * @return int
      */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
@@ -78,7 +80,7 @@ class UserPasswordReset extends BaseModel
      * Set the token for this object
      * @param string $token
      */
-    public function setToken($token)
+    public function setToken(string $token)
     {
         $this->token = $token;
     }
@@ -87,7 +89,7 @@ class UserPasswordReset extends BaseModel
      * Get the token for this object
      * @return string
      */
-    public function getToken()
+    public function getToken(): string
     {
         return $this->token;
     }
@@ -96,7 +98,7 @@ class UserPasswordReset extends BaseModel
      * Set the date the password request was made for this object
      * @param string $date_requested
      */
-    public function setDateRequested($date_requested)
+    public function setDateRequested(string $date_requested)
     {
         $this->date_requested = $date_requested;
     }
@@ -105,7 +107,7 @@ class UserPasswordReset extends BaseModel
      * Get the date the password request was made for this object
      * @return string
      */
-    public function getDateRequested()
+    public function getDateRequested(): string
     {
         return $this->date_requested;
     }
@@ -114,7 +116,7 @@ class UserPasswordReset extends BaseModel
      * Set the expiry timestamp for the token created when this reset password request was made
      * @param int $date_of_expiry
      */
-    public function setDateOfExpiry($date_of_expiry)
+    public function setDateOfExpiry(int $date_of_expiry)
     {
         $this->date_of_expiry = $date_of_expiry;
     }
@@ -123,7 +125,7 @@ class UserPasswordReset extends BaseModel
      * Get the UNIX timestamp for which the token created when this reset password request was made will expire
      * @return int
      */
-    public function getDateOfExpiry()
+    public function getDateOfExpiry(): int
     {
         return $this->date_of_expiry;
     }
@@ -139,9 +141,9 @@ class UserPasswordReset extends BaseModel
 
     /**
      * Get whether or not a token will expire
-     * @return bool
+     * @return bool|int
      */
-    public function getExpires()
+    public function getExpires(): bool|int
     {
         return $this->expires;
     }
@@ -150,7 +152,7 @@ class UserPasswordReset extends BaseModel
      * Table for managing model
      * @return string
      */
-    public static function tableName()
+    public static function tableName(): string
     {
         return "user_password_resets";
     }
@@ -162,8 +164,9 @@ class UserPasswordReset extends BaseModel
      * @param boolean $expiry
      * @return string
      * @throws ResetPasswordException
+     * @throws Exception
      */
-    public function generateToken($user_id, $tokenLength, $expires, $expiry)
+    public function generateToken(int $user_id, int $tokenLength, int $expires, bool $expiry): string
     {
         if ($tokenLength > self::MAX_TOKEN_LENGTH) {
             throw new ResetPasswordException(sprintf(ErrorMessages::RESET_PASSWORD_TOKEN_TOO_LONG, UserPasswordReset::MAX_TOKEN_LENGTH));
@@ -196,9 +199,9 @@ class UserPasswordReset extends BaseModel
     /**
      * Get reset data associated with a token
      * @param $token
-     * @return self
+     * @return array|UserPasswordReset|ActiveRecord
      */
-    public function getTokenData($token)
+    public function getTokenData($token): self|array|ActiveRecord
     {
         return $this->find()->where(['token' => $token])->one();
     }
@@ -208,14 +211,14 @@ class UserPasswordReset extends BaseModel
      * @param string $token
      * @return bool
      */
-    private function tokenExists($token)
+    private function tokenExists(string $token): bool
     {
         $tokenData = $this->getTokenData($token);
         if ($tokenData == false) {
             return false;
         }
 
-        return $tokenData == false ? true : false;
+        return $tokenData == false;
     }
 
     /**
@@ -223,7 +226,7 @@ class UserPasswordReset extends BaseModel
      * @param string $token
      * @return bool
      */
-    public function expireToken($token)
+    public function expireToken(string $token): bool
     {
         $tokenData = $this->getTokenData($token);
         if ($tokenData == false) {

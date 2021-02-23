@@ -23,8 +23,7 @@ $ composer require cottacush/yii2-user-auth
 
 The following versions of PHP are supported by this version.
 
-* PHP 5.5
-* PHP 5.6
+* PHP 8.0
 
 
 to the require section of your `composer.json` file.

@@ -3,6 +3,7 @@
 namespace cottacush\userauth\libs;
 
 use Yii;
+use yii\base\Exception;
 use yii\helpers\BaseInflector;
 
 
@@ -19,8 +20,9 @@ class Utils
      *
      * @param string $rawPassword the password to be encrypted
      * @return bool|string
+     * @throws Exception
      */
-    public static function encryptPassword($rawPassword)
+    public static function encryptPassword($rawPassword): bool|string
     {
         return Yii::$app->security->generatePasswordHash($rawPassword);
     }
@@ -33,7 +35,7 @@ class Utils
      * @param string $dbHash the hashed password that was saved
      * @return bool
      */
-    public static function verifyPassword($rawPassword, $dbHash)
+    public static function verifyPassword(string $rawPassword, string $dbHash): bool
     {
         return Yii::$app->security->validatePassword($rawPassword, $dbHash);
     }
@@ -44,8 +46,9 @@ class Utils
      * @param int $length
      * @param bool|true $strict
      * @return string
+     * @throws Exception
      */
-    public static function generateRandomPassword($length = 8, $strict = true)
+    public static function generateRandomPassword($length = 8, $strict = true): string
     {
         return Yii::$app->security->generateRandomString($length);
     }
@@ -54,8 +57,9 @@ class Utils
      * @param int $length length of the string
      * @param bool|true $strict whether or not the string should contain a symbol
      * @return string
+     * @throws Exception
      */
-    public static function generateRandomString($length, $strict = true)
+    public static function generateRandomString(int $length, $strict = true): string
     {
         return Yii::$app->security->generateRandomString($length);
     }
@@ -65,7 +69,7 @@ class Utils
      * @author Tega Oghenekohwo <tega@cottacush.com>
      * @return bool|string
      */
-    public static function getCurrentDateTime()
+    public static function getCurrentDateTime(): bool|string
     {
         return date('Y-m-d H:i:s');
     }
@@ -75,7 +79,7 @@ class Utils
      * @param array $array
      * @return bool
      */
-    public static function validateArrayHasAllKeys(array $keys, array $array)
+    public static function validateArrayHasAllKeys(array $keys, array $array): bool
     {
         foreach ($keys as $aKey) {
             if (!array_key_exists($aKey, $array)) {
@@ -90,7 +94,7 @@ class Utils
      * @param $object
      * @return bool
      */
-    public static function validateObjectHasAllProperties(array $properties, $object)
+    public static function validateObjectHasAllProperties(array $properties, $object): bool
     {
         foreach ($properties as $aProperty) {
             if (!property_exists($object, $aProperty)) {
@@ -104,7 +108,7 @@ class Utils
      * @param mixed $message
      * @return string
      */
-    public static function getMessagesFromStringOrArray($message)
+    public static function getMessagesFromStringOrArray(mixed $message): string
     {
         $messages = "";
         // check if the messages parameter passed is an array or a string
@@ -128,7 +132,7 @@ class Utils
      * @param $errors
      * @return string
      */
-    public static function getErrorsAsString($errors)
+    public static function getErrorsAsString($errors): string
     {
         if (is_array($errors)) {
             $errorsStringArr = [];
